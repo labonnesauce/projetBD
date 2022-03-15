@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Clients (
     nom       VARCHAR(100)  NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Mot_de_passe (
+CREATE TABLE IF NOT EXISTS MotDePasse (
     id           INTEGER      PRIMARY KEY,
     mot_de_passe VARCHAR(100) NOT NULL,
       CONSTRAINT FK_client_id_motpasse FOREIGN KEY (id) REFERENCES Clients (id)
