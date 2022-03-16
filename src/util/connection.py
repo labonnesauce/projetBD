@@ -4,9 +4,9 @@ import pymysql
 def open_connection():
     connection = pymysql.connect(
         host="localhost",
-        user="root",
-        db="glo_2005_webapp",
-        password="Joblo007",
+        user="newUser",
+        db="projet_glo2005",
+        password="newUserPassword",
         autocommit=True
     )
 
