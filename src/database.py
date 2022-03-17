@@ -9,3 +9,4 @@ if __name__ == '__main__':
     insertion.insert_donnees()
 
     conn, cursor = bd.open_connection()
+#allo
