@@ -1,5 +1,6 @@
 from random import *
 from .connection import open_connection, close_connection_and_cursor
+from datetime import date, timedelta
 
 import datetime
 
@@ -10,7 +11,9 @@ LOREM_IPSUM = ["Pellentesque diam volutpat commodo sed egestas egestas fringilla
                "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore " \
                "et dolore magna aliqua. Semper viverra nam libero justo laoreet sit amet. Pretium quam vulputate " \
                "dignissim suspendisse in est ante in nibh.", "Venenatis urna cursus eget nunc " \
-               "scelerisque viverra. Nulla pharetra diam sit amet. Congue mauris rhoncus aenean vel elit."]
+               "scelerisque viverra. Nulla pharetra diam sit amet. Congue mauris rhoncus aenean vel elit.",
+               "Donec non quam enim. Sed consectetur tellus non odio posuere iaculis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+               " Phasellus eu sapien eu augue gravida fermentum porta non ex. Mauris nec rhoncus leo. Maecenas auctor tellus in urna malesuada, a posuere est iaculis."]
 
 NOMS_FAMILLE = ["Gagnon", "Roy", "Côté", "Bouchard", "Gauthier", "Morin", "Lavoie", "Fortin", "Gagné", "Ouellet", "Pelletier", "Bélanger",
                 "Lévesque", "Bergeron", "Leblanc", "Paquette", "Simard", "Boucher", "Beaulieu", "Poirier", "Martin", "Grenier"]
@@ -26,24 +29,27 @@ CATEGORIES = ["Animaux", "Chasse", "Pêche", "Fruit", "Légume", "Liquides", "Ra
 def insert_donnees():
     conn, cursor = open_connection()
 
-    insert_categories(conn, cursor)
-    insert_clients(conn, cursor)
+    insert_categories(cursor)
+    insert_clients(cursor)
+    insert_produits(cursor)
+    insert_livreurs(cursor)
+    insert_commandes(cursor)
 
     close_connection_and_cursor(conn, cursor)
 
-def insert_categories(conn, cursor):
+def insert_categories(cursor):
     requete = "INSERT INTO Categorie(nom, description) VALUES('{0}', '{1}')"
 
     try:
         for i in range(1, len(CATEGORIES)):
             cursor.execute(requete.format(
-                CATEGORIES[randint(0, len(CATEGORIES) - 1)],
+                CATEGORIES[i-1],
                 LOREM_IPSUM[randint(0, len(LOREM_IPSUM) - 1)],
             ))
     except Exception as e:
         print(e)
 
-def insert_clients(conn, cursor):
+def insert_clients(cursor):
     requete = "INSERT INTO Client(telephone, courriel, adresse, nom) VALUES('{0}', '{1}', '{2}', '{3}')"
 
     COURRIELS = set()
@@ -61,3 +67,75 @@ def insert_clients(conn, cursor):
             ))
     except Exception as e:
         print(e)
+
+def insert_mots_de_passe(cursor):
+    # do nothing for now
+    cursor = cursor
+
+def insert_produits(cursor):
+    requete = "INSERT INTO Produit(categorie_id, nom, prix, poids, description) VALUES({0}, '{1}', {2}, {3}, '{4}')"
+
+    NOMS = set()
+    while len(NOMS) != 100:
+        randomNom = LOREM_IPSUM[randint(0, len(LOREM_IPSUM) - 1)].split(" ")
+        NOMS.add(randomNom[randint(0, len(randomNom)-1)])
+    NOMS = [*NOMS]
+
+    try:
+        for i in range(1, 101):
+            cursor.execute(requete.format(
+                randint(1, len(CATEGORIES) - 1),
+                NOMS[i-1],
+                randint(10, 150),
+                randint(3,20),
+                LOREM_IPSUM[randint(0, len(LOREM_IPSUM) - 1)],
+            ))
+
+    except Exception as e:
+        print(e)
+
+def insert_livreurs(cursor):
+    requete = "INSERT INTO Livreur(statut, nom) VALUES('{0}', '{1}')"
+
+    try:
+        for i in range(1, 21):
+            cursor.execute(requete.format(
+                STATUT_LIVREUR[randint(0, 1)],
+                PRENOMS[randint(0, len(PRENOMS) - 1)] + ' ' + NOMS_FAMILLE[randint(0, len(NOMS_FAMILLE) - 1)]
+            ))
+
+    except Exception as e:
+        print(e)
+
+def insert_commandes(cursor):
+    requete = "INSERT INTO Commander(produit_id, client_id, livreur_id, quantite, prix, date_commande, date_livraison, recu) VALUES({0}, {1}, {2}, {3}, {4}, '{5}', '{6}', {7})"
+    # requeteLivreurs = "SELECT L.id FROM Livreur L WHERE COUNT(*) = (SELECT COUNT(*) FROM Commander C WHERE C.livreur_id = L.id AND C.recu = 0) ORDER BY RAND() LIMIT 1;"
+    requeteProduits = "SELECT P.prix FROM Produit P WHERE P.id = {0}"
+
+    for i in range(1, 101):
+        # cursor.execute(requeteLivreurs)
+        # valeurLivreur = cursor.fetchone();
+        # livreurValide = valeurLivreur[0]
+
+        produit_id = randint(1, 100)
+        quantite = randint(1, 10)
+        cursor.execute(requeteProduits.format(
+            produit_id
+        ))
+        prix_individuel = cursor.fetchone()[0]
+
+        start_dt = date.today().replace(day=1, month=1).toordinal()
+        end_dt = date.today().toordinal()
+        random_date_start = date.fromordinal(randint(start_dt, end_dt))
+        random_date_end = random_date_start + timedelta(days = randint(2,7))
+
+        cursor.execute(requete.format(
+            produit_id,
+            randint(1, 100),
+            randint(1, 20),
+            quantite,
+            quantite * prix_individuel,
+            random_date_start,
+            random_date_end,
+            randint(0,1)
+        ))

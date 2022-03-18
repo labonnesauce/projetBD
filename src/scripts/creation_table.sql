@@ -1,13 +1,13 @@
 DROP TABLE IF EXISTS MotDePasse;
 DROP TABLE IF EXISTS Souhaiter;
+DROP TABLE IF EXISTS Commander;
 DROP TABLE IF EXISTS Client;
 DROP TABLE IF EXISTS Produit;
 DROP TABLE IF EXISTS Categorie;
 DROP TABLE IF EXISTS Livreur;
-DROP TABLE IF EXISTS Commander;
 
 CREATE TABLE IF NOT EXISTS Client (
-    id        INTEGER AUTO_INCREMENT PRIMARY KEY,
+    id        INTEGER       PRIMARY KEY AUTO_INCREMENT,
     telephone VARCHAR(10)   NOT NULL,
     courriel  VARCHAR(100)  NOT NULL UNIQUE,
     adresse   VARCHAR(100)  NOT NULL,
@@ -21,15 +21,15 @@ CREATE TABLE IF NOT EXISTS MotDePasse (
 );
 
 CREATE TABLE IF NOT EXISTS Categorie (
-    id          INTEGER AUTO_INCREMENT PRIMARY KEY,
+    id          INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom         VARCHAR(100),
     description VARCHAR(500)
 );
 
 CREATE TABLE IF NOT EXISTS Produit (
-    id           INTEGER      PRIMARY KEY,
-    categorie_id INTEGER,
-    nom          VARCHAR(100) NOT NULL UNIQUE,
+    id           INTEGER      PRIMARY KEY AUTO_INCREMENT,
+    categorie_id INTEGER      NOT NULL,
+    nom          VARCHAR(100) NOT NULL,
     prix         INTEGER      NOT NULL,
     poids        INTEGER      NOT NULL,
     description  VARCHAR(500) NOT NULL,
@@ -45,20 +45,22 @@ CREATE TABLE IF NOT EXISTS Souhaiter (
 );
 
 CREATE TABLE IF NOT EXISTS Livreur (
-      id     INTEGER PRIMARY KEY,
-      statut ENUM('occupe', 'attente'),
+      id     INTEGER PRIMARY KEY AUTO_INCREMENT,
+      statut ENUM('occupé', 'attente'),
       nom    VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS Commander (
-      id             INTEGER PRIMARY KEY AUTO
-      produit_id     INTEGER NOT NULL,
-      client_id      INTEGER NOT NULL,
-      livreur_id     INTEGER NOT NULL,
-      prix           INTEGER NOT NULL,
-      date_commande  DATE NOT NULL,
-      date_livraison DATE NOT NULL,
-        PRIMARY KEY (id, produit_id, client_id),
+      id              INTEGER    PRIMARY KEY AUTO_INCREMENT,
+      produit_id      INTEGER    NOT NULL,
+      client_id       INTEGER    NOT NULL,
+      livreur_id      INTEGER    NOT NULL,
+      quantite        INTEGER    NOT NULL,
+      prix            INTEGER    NOT NULL,
+      date_commande   DATE       NOT NULL,
+      date_livraison  DATE       NOT NULL,
+      recu            INTEGER(1) NOT NULL DEFAULT FALSE,
         CONSTRAINT FK_client_id_commande FOREIGN KEY (client_id) REFERENCES Client (id),
-        CONSTRAINT FK_produit_id_commande FOREIGN KEY (produit_id) REFERENCES Produit (id)
-)
+        CONSTRAINT FK_produit_id_commande FOREIGN KEY (produit_id) REFERENCES Produit (id),
+        CONSTRAINT FK_livreur_id_commande FOREIGN KEY (livreur_id) REFERENCES Livreur (id)
+);
