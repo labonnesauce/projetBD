@@ -34,6 +34,7 @@ def insert_donnees():
     insert_produits(cursor)
     insert_livreurs(cursor)
     insert_commandes(cursor)
+    insert_souhaiter(cursor)
 
     close_connection_and_cursor(conn, cursor)
 
@@ -86,7 +87,7 @@ def insert_produits(cursor):
             cursor.execute(requete.format(
                 randint(1, len(CATEGORIES) - 1),
                 NOMS[i-1],
-                randint(10, 150),
+                uniform(5.0, 150.0),
                 randint(3,20),
                 LOREM_IPSUM[randint(0, len(LOREM_IPSUM) - 1)],
             ))
@@ -139,3 +140,22 @@ def insert_commandes(cursor):
             random_date_end,
             randint(0,1)
         ))
+
+def insert_souhaiter(cursor):
+    requete = "INSERT INTO Souhaiter(client_id, produit_id) VALUES({0}, {1})"
+
+    SOUHAITS = set()
+    while len(SOUHAITS) != 200:
+        randomClient = randint(1, 100)
+        randomProduit = randrange(1, 100)
+        SOUHAITS.add((randomClient, randomProduit))
+
+    try:
+        for client, produit in SOUHAITS:
+            cursor.execute(requete.format(
+                client,
+                produit
+            ))
+
+    except Exception as e:
+        print(e)

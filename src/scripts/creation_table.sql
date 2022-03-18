@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS MotDePasse (
 
 CREATE TABLE IF NOT EXISTS Categorie (
     id          INT(20)  PRIMARY KEY AUTO_INCREMENT,
-    nom         VARCHAR(100),
-    description VARCHAR(500)
+    nom         VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Produit (
