@@ -3,10 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo list</title>
-
-    <script src="../static/app.js"></script>
+    <link rel="stylesheet" href="../static/css/global.css">
+    <link rel="stylesheet" href="../static/css/index.css">
 </head>
 <body>
-    {{x}}
+    {% include './components/header.html' %}
+
+    <main>
+        <div class="main-container">
+            <div class="search">
+                <div class="nos-produits">
+                    <span class="nos-produits-title">Nos produits</span>
+                </div>
+
+                <div class="recherche">
+                    <img class="loupe-icon" src="../static/public/images/loupe.png"/>
+                    <input oninput="filtreProduits()" id="input-recherche-produits" class="recherche-input" placeholder="Rechercher un produit" type="text"/>
+                </div>
+            </div>
+
+            <div class="categories">
+                {% for categorie in data.categories %}
+                    <span id={{categorie[0]}} onclick=ajouteCategorie(this) class="categories-cat">{{categorie[0]}}</span>
+                {% endfor %}
+            </div>
+
+            <div id="aucun-item" class="aucun-item display-none">Aucun item ne correspond à votre recherche</div>
+
+            <div class="produits">
+                {% for produit in data.tousProduits %}
+                    <a href="/produit" class="produit">
+                        <div class="produit-img-container">
+                            <img class="produit-img" src="{{produit[5]}}"/>
+                        </div>
+                        <div class="produit-info">
+                            <div class="produit-all-info">
+                                <span class="produit-category">{{produit[6]}}</span>
+                                <span class="produit-nom">{{produit[1]}}</span>
+                                <span class="price">{{produit[2]}}$</span>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    {% include './components/footer.html' %}
 </body>
 </html>
+
+<script src="../static/js/index.js"></script>

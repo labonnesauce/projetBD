@@ -1,0 +1,180 @@
+main {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 100px;
+    background:  rgb(235,235,235);
+}
+
+.main-container {
+    padding: 0 100px 0 100px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 90%;
+    max-width: 1300px;
+    flex-direction: column;
+}
+
+.search {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    margin-top: 200px;
+}
+
+.nos-produits {
+    display: flex;
+    flex-direction: column;
+}
+
+.nos-produits-title {
+    font-size: 30px;
+    font-family: "Wotfard-Medium";
+}
+
+.tip {
+    color: grey;
+    font-family: "Wotfard-Regular";
+}
+
+.recherche-input {
+    box-shadow: 1px 5px 15px -3px rgba(0,0,0,0.38);
+    font-size: 19px;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    font-font: "Wotfard-Medium";
+}
+
+.loupe-icon {
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.recherche {
+    display: flex;
+    align-items: center;
+}
+
+.produits {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 50px 0 100px 0;
+}
+
+@media screen
+and (max-width: 1300px){
+    .produits {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen
+and (max-width: 1000px){
+    .produits {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.produit {
+    position: relative;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: whitesmoke;
+    box-shadow: 1px 5px 15px -8px rgba(0,0,0,0.38);
+    transition: box-shadow .1s;
+}
+
+.produit:hover {
+        box-shadow: 1px 5px 15px -5px rgba(0,0,0,0.78);
+}
+
+.produit-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.produit-all-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.produit-nom {
+    font-family: "Wotfard-Medium";
+    font-size: 20px;
+    color: black;
+}
+
+.price {
+    color: black;
+    margin-top: 4px;
+    font-family: "Wotfard-Regular";
+    font-size: 16px;
+}
+
+.produit-img {
+    width: 100%;
+    overflow: hidden;
+    background-size: contain;
+}
+
+.produit-img-container {
+    padding: 10px;
+    box-sizing: border-box;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+    height: 300px;
+}
+
+.produit-category {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    font-family: "Wotfard-Medium";
+    border-radius: 3px;
+    color: white;
+    background-color: #003366;
+    padding: 5px;
+}
+
+.categories {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.categories-cat {
+    cursor: pointer;
+    font-family: Wotfard-Regular;
+    background-color: grey;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    margin: 5px;
+    transition: transform .1s;
+}
+
+.categories-cat:hover {
+    transform: scale(1.05);
+    background-color: #5c7d5c;
+}
+
+.category-active {
+    background-color: #228B22 !important;
+}
+
+.aucun-item {
+    font-family: Wotfard-Regular;
+    color: black;
+    text-align: center;
+    font-size: 30px;
+    margin-top: 100px;
+}

@@ -1,0 +1,55 @@
+body, html {
+    box-sizing: border-box;
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@200&family=Sriracha&display=swap');
+
+@font-face {
+    font-family: "Wotfard-Light";
+    src: url("../public/fonts/Wotfard-Light.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Wotfard-Medium";
+    src: url("../public/fonts/Wotfard-Medium.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Wotfard-SemiBold";
+    src: url("../public/fonts/Wotfard-SemiBold.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: "Wotfard-Bold";
+    src: url("../public/fonts/Wotfard-Bold.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Wotfard-Regular";
+    src: url("../public/fonts/Wotfard-Regular.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Wotfard-RegularItalic";
+    src: url("../public/fonts/Wotfard-RegularItalic.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+
+.display-none {
+    display: none;
+}

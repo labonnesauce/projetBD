@@ -7,11 +7,12 @@ DROP TABLE IF EXISTS Categorie;
 DROP TABLE IF EXISTS Livreur;
 
 CREATE TABLE IF NOT EXISTS Client (
-    id        INT(20)       PRIMARY KEY AUTO_INCREMENT,
-    telephone VARCHAR(10)   NOT NULL,
-    courriel  VARCHAR(100)  NOT NULL UNIQUE,
-    adresse   VARCHAR(100)  NOT NULL,
-    nom       VARCHAR(100)  NOT NULL
+    id          INT(20)       PRIMARY KEY AUTO_INCREMENT,
+    telephone   VARCHAR(10)   NOT NULL,
+    courriel    VARCHAR(100)  NOT NULL UNIQUE,
+    adresse     VARCHAR(100)  NOT NULL,
+    nom_famille VARCHAR(100)  NOT NULL,
+    prenom      VARCHAR(100)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS MotDePasse (
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Produit (
     prix         FLOAT(10,2)  NOT NULL,
     poids        INT(20)      NOT NULL,
     description  VARCHAR(500) NOT NULL,
+    image        VARCHAR(50)  NOT NULL,
       CONSTRAINT FK_categorie_id FOREIGN KEY (categorie_id) REFERENCES Categorie (id)
 );
 

@@ -3,13 +3,27 @@ from util import connection as bd
 from util import insertion_tables as insertion
 
 app = Flask(__name__)
-model = {}
+data = {"user": {"connecte": True, "nom_famille": "Doe", "prenom": "John"}}
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def index():
-    cursor.execute("SELECT * FROM Souhaiter LIMIT 1")
-    return render_template("index.html", x=cursor.fetchone())
+    data["erreur"] = None
+    requeteGetTousProduits = "SELECT P.id, P.nom, P.prix, P.poids, P.description, P.image, C.nom as Catégorie from Produit P, Categorie C WHERE P.categorie_id = C.id ORDER BY P.nom"
+    requeteGetTousCategories = "SELECT C.nom FROM Categorie C"
 
+    try:
+        produits = bd.execute_commande_bd(requeteGetTousProduits, False)
+        data["tousProduits"] = produits
+
+        categories = bd.execute_commande_bd(requeteGetTousCategories, False)
+        data["categories"] = categories
+
+        bd.close_connection_and_cursor()
+
+    except Exception as e:
+        data["erreur"] = "Impossible d'obtenir les données de la base de données."
+
+    return render_template("index.html", data=data)
 
 if __name__ == '__main__':
     global conn
@@ -20,4 +34,4 @@ if __name__ == '__main__':
     insertion.insert_donnees()
 
     conn, cursor = bd.open_connection()
-    app.run()
+    app.run(use_reloader=True, debug=True)

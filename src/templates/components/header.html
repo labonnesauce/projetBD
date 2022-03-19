@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="../../static/css/global.css">
+    <link rel="stylesheet" href="../static/css/header.css">
+
+    <script src="../../static/app.js"></script>
+</head>
+    <header>
+        <div class="header-container">
+            <a class="logo" href="/">
+                L'Aventure Nordique
+            </a>
+
+            {% if data.user.connecte %}
+            <div class="h-flex-connecte">
+                <a href="/liste-de-souhaits" class="h-flex-item">
+                    <span>Mes souhaits</span>
+                    <img class="list-icon" src="../../static/public/images/liste_souhaits.png"/>
+                </a>
+
+
+                <a href="/panier" class="h-flex-item">
+                    <span>Mon panier</span>
+                    <img class="list-icon" src="../../static/public/images/panier.png"/>
+                </a>
+
+                <a href="/mon-compte" class="h-flex-item">
+                    <span>Mon compte</span>
+                    <img class="list-icon" src="../../static/public/images/user.png"/>
+                </a>
+            </div>
+
+            {% else %}
+            <div>
+                <a href="/se-connecter" class="h-flex-item">
+                    <span>Se connecter</span>
+                    <img class="list-icon" src="../../static/public/images/user.png"/>
+                </a>
+            </div>
+
+            {% endif %}
+        </div>
+    </header>
+</html>
