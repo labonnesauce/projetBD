@@ -31,13 +31,25 @@
                     <span>Mon compte</span>
                     <img class="list-icon" src="../../static/public/images/user.png"/>
                 </a>
+
+                <form method="post" action="/deconnexion" class="h-flex-item">
+                    <button type="submit">
+                        <span>Déconnexion</span>
+                        <img class="list-icon" src="../../static/public/images/logout.png"/>
+                    </button>
+                </form>
             </div>
 
             {% else %}
-            <div>
+            <div class="h-flex-connecte">
                 <a href="/se-connecter" class="h-flex-item">
                     <span>Se connecter</span>
                     <img class="list-icon" src="../../static/public/images/user.png"/>
+                </a>
+
+                <a href="/inscription" class="h-flex-item">
+                    <span>Inscription</span>
+                    <img class="list-icon" src="../../static/public/images/sign_up.png"/>
                 </a>
             </div>
 

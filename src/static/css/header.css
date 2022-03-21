@@ -32,6 +32,24 @@ a {
     transition: transform .1s;
 }
 
+.h-flex-connecte form {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.h-flex-connecte button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: "Wotfard-Regular";
+    font-size: 16px;
+    color: white;
+}
+
 .logo:hover {
     transform: scale(1.05);
 }

@@ -1,0 +1,43 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L'Aventure Nordique</title>
+    <link rel="stylesheet" href="../static/css/se-connecter.css">
+    <link rel="stylesheet" href="../static/css/global.css">
+</head>
+<body>
+    {% include './components/header.html' %}
+
+    <main>
+        <div class="main-container">
+            {% if data.user.connecte %}
+            <div class="deja-connecte">
+                <span class="deja-connecte-text">
+                    Bonjour, {{data.user.prenom}}! Vous êtes connecté à votre compte.
+                </span>
+                <a href="/mon-compte">
+                    <button class="deja-connecte-button">
+                        Accéder à mon compte
+                    </button>
+                </a>
+            </div>
+
+            {% else %}
+            <div class="connexion">
+                <span class="acceder-compte">Accéder à mon compte</span>
+                <form class="connexion-form" method="post">
+                    <input name="courriel" placeholder="Adresse courriel" type="text"/>
+                    <input name="mot-de-passe" placeholder="Mot de passe" type="password"/>
+                    <button type="submit">Se connecter</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    {% include './components/footer.html' %}
+</body>
+</html>

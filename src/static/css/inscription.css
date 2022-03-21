@@ -1,0 +1,90 @@
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: calc(100vh - 60px - 300px);
+}
+
+.main-container {
+    margin: 100px 0 100px 0;
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deja-connecte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.deja-connecte-text {
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: "Wotfard-Regular";
+    font-size: 30px;
+}
+
+.deja-connecte-button {
+    box-shadow: 1px 5px 15px -3px rgba(0,0,0,0.38);
+    padding: 10px;
+    background-color: #228B22;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 20px;
+    transition: transform .1s;
+    font-family: "Wotfard-Regular";
+}
+
+.deja-connecte-button:hover {
+    transform: scale(1.05);
+}
+
+.inscription {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.creer-compte {
+    padding-bottom: 20px;
+    font-family: "Wotfard-Medium";
+    font-size: 25px;
+}
+
+.inscription-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inscription-form input {
+    padding: 10px;
+    margin: 5px;
+    font-size: 22px;
+}
+
+.inscription-form button {
+    padding: 10px;
+    font-size: 20px;
+    font-family: "Wotfard-Regular";
+}
+
+.msg-erreur {
+    font-family: Wotfard-Bold;
+    color: red;
+    padding-top: 35px;
+    font-size: 25px;
+}
+
+.msg-succes {
+    padding-top: 35px;
+    font-size: 25px;
+    color: green;
+    font-family: Wotfard-Bold;
+}

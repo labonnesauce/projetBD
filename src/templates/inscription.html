@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L'Aventure Nordique</title>
+    <link rel="stylesheet" href="../static/css/inscription.css">
+    <link rel="stylesheet" href="../static/css/global.css">
+</head>
+<body>
+    {% include './components/header.html' %}
+
+    <main>
+        <div class="main-container">
+            {% if data.user.connecte %}
+            <div class="deja-connecte">
+                <span class="deja-connecte-text">
+                    Bonjour, {{data.user.prenom}}! Vous êtes connecté à votre compte.
+                </span>
+                <a href="/mon-compte">
+                    <button class="deja-connecte-button">
+                        Accéder à mon compte
+                    </button>
+                </a>
+            </div>
+
+            {% else %}
+            <div class="inscription">
+                <span class="creer-compte">Créer un compte</span>
+                <form action="/inscription" class="inscription-form" method="post">
+                    <input name="courriel" placeholder="Adresse courriel" type="email" required/>
+                    <input name="prenom" placeholder="Prénom" type="text" required/>
+                    <input name="nom_de_famille" placeholder="Nom" type="text" required/>
+                    <input name="mot_de_passe" placeholder="Mot de passe" type="password" required/>
+                    <input name="telephone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Téléphone: 123-456-7890" type="tel"/>
+                    <button type="submit">Se connecter</button>
+                    {% if data.message.erreur %}
+                    <span class="msg-erreur">{{data.message.erreur}}</span>
+                    {% endif %}
+                    {% if data.message.succes %}
+                    <span class="msg-succes">{{data.message.succes}}</span>
+                    {% endif %}
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    {% include './components/footer.html' %}
+</body>
+</html>

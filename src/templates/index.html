@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Todo list</title>
+    <title>L'Aventure Nordique</title>
     <link rel="stylesheet" href="../static/css/global.css">
     <link rel="stylesheet" href="../static/css/index.css">
 </head>
@@ -11,6 +11,18 @@
 
     <main>
         <div class="main-container">
+            <div class="accueil-top">
+                <div class="accueil-top-text">
+                    {% if data.user.connecte %}
+                    <span class="welcome-user">Bonjour, {{data.user.prenom}}!</span>
+                    {% else %}
+                    <span class="welcome-user">Bonjour, cher client!</span>
+                    {% endif %}
+                    <span class="welcome-text">Depuis 2007, L'Aventure Nordique vous offre la plus vaste gamme de produits de chasse, de pêche, de randonnée, et bien plus!</span>
+                </div>
+                <img class="accueil-top-img" src="../static/public/images/accueil.jpg"/>
+            </div>
+
             <div class="search">
                 <div class="nos-produits">
                     <span class="nos-produits-title">Nos produits</span>
