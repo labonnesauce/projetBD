@@ -41,7 +41,7 @@ def signup():
         data["message"]["erreur"] = "Le numéro de téléphone doit avoir le format: 123-456-7890"
 
     if data["message"]["erreur"] is not None:
-        return render_template("/inscription", data=data)
+        return render_template("inscription.html", data=data)
 
     return redirect("/")
 
@@ -75,6 +75,13 @@ def deconnexion():
     data["user"]["prenom"] = ""
 
     return redirect("/")
+
+@app.route('/mon-compte', methods=['GET'])
+def mes_souhaits():
+    if not data["user"]["connecte"]:
+        return redirect("/")
+
+    return render_template("mon-compte.html", data=data)
 
 if __name__ == '__main__':
     global conn
