@@ -4,7 +4,17 @@ from util import insertion_tables as insertion
 import re
 
 app = Flask(__name__)
-data = {"message": {}, "user": {"connecte": False, "nom_famille": "Doe", "prenom": "John"}}
+global data
+data = {"message": {}, "commandesClient": (), "panier": [], "user": {"connecte": False, "nom_famille": "", "prenom": "", id: None}}
+
+def resetData():
+    data["user"]["connecte"] = False
+    data["user"]["nom_famille"] = ""
+    data["user"]["prenom"] = ""
+    data["user"]["id"] = None
+    data["message"] = {}
+    data["commandesClient"] = ()
+    data["panier"] = []
 
 @app.before_request
 def before_request_callback():
@@ -62,24 +72,34 @@ def connexion():
     mot_de_passe = request.form.get("mot-de-passe")
 
     data["user"]["connecte"] = True
-    data["user"]["nom_famille"] = "Doe"
-    data["user"]["prenom"] = "John"
+    data["user"]["nom_famille"] = "Skywalker"
+    data["user"]["prenom"] = "Anakin"
+    data["user"]["id"] = 1
 
     return render_template("se-connecter.html", data=data)
 
 
 @app.route('/deconnexion', methods=['POST'])
 def deconnexion():
-    data["user"]["connecte"] = False
-    data["user"]["nom_famille"] = ""
-    data["user"]["prenom"] = ""
+    resetData()
 
     return redirect("/")
 
 @app.route('/mon-compte', methods=['GET'])
 def mes_souhaits():
+
+    # si le user est pas logged in, redirect: /
     if not data["user"]["connecte"]:
         return redirect("/")
+
+    requeteGetTousCommandes = "SELECT P.nom, C.prix as 'prix_total', C.date_commande, C.date_livraison, C.recu, C.quantite, P.image FROM Produit P INNER JOIN Commander C on P.id = C.produit_id WHERE C.client_id = {0};"
+
+    try:
+        commandes = bd.execute_commande_bd(requeteGetTousCommandes.format(data["user"]["id"]), False)
+        data["commandesClient"] = commandes
+        data["nombreCommandes"] = len(commandes)
+    except Exception as e:
+        data["erreur"] = "Impossible d'obtenir les données de la base de données."
 
     return render_template("mon-compte.html", data=data)
 

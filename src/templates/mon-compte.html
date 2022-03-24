@@ -22,7 +22,55 @@
                 </div>
 
                 <div class="historique">
-                    <span>Historique de mes commandes</span>
+                    <div class="historique-titre">
+                        <span>Historique de mes commandes</span>
+                        <div>Total: {{data.nombreCommandes}}</div>
+                    </div>
+                    {% if data.nombreCommandes == 0 %}
+                    <span class="produit-none">Vous n'avez jamais passé de commandes.</span>
+                    {% endif %}
+                    <div class="historique-list">
+                        {% for commande in data.commandesClient %}
+                            <div class="commande">
+                                <div class="produit-img-container">
+                                    <img class="produit-img" src="{{commande[6]}}"/>
+                                </div>
+                                <div class="produit-info">
+                                    <div class="status">
+                                        <span class="produit-title">{{commande[0]}}</span>
+                                        {% if commande[4] == 0 %}
+                                        <span class="produit-status" style="color: orangered">En livraison</span>
+                                        {% else %}
+                                        <span class="produit-status" style="color: green">Livré</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="jc produit-quantite">
+                                        <span>Quantité commandée: </span>
+                                        <span>{{commande[5]}}</span>
+                                    </div>
+                                    <div class="jc produit-prix-total">
+                                        <span>Prix total: </span>
+                                        <span>{{commande[1]}}$</span>
+                                    </div>
+                                    <div class="jc produit-date1">
+                                        <span>Date de la commande: </span>
+                                        <span>{{commande[2]}}</span>
+                                    </div>
+                                    {% if commande[4] == 0 %}
+                                    <div class="jc produit-date2">
+                                        <span>Date de livraison prévue: </span>
+                                        <span>{{commande[3]}}</span>
+                                    </div>
+                                    {% else %}
+                                    <div class="jc produit-date2">
+                                        <span>Date livré: </span>
+                                        <span>{{commande[3]}}</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
 

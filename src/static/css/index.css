@@ -80,6 +80,7 @@ and (max-width: 1000px){
 }
 
 .produit {
+    cursor: pointer;
     position: relative;
     border-radius: 5px;
     margin: 10px;
@@ -229,4 +230,69 @@ and (max-width: 900px){
     .accueil-top-img {
         width: 100%
     }
+}
+
+.desc {
+    font-family: Wotfard-Light;
+    color: gray;
+    padding-top: 10px;
+    font-size: 16px;
+}
+
+.modale {
+    box-shadow: 1px 5px 15px -3px rgba(0,0,0,0.88);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 300px;
+    background-color: #fff8f8;;
+    border-radius: 10px;
+    left: 50%;
+    align-items: center;
+    transform: translateX(-50%);
+    transition: all .2s;
+    opacity: 0;
+    top: 100%;
+    padding: 20px;
+    justify-content: center;
+}
+
+.active {
+    transform: translateX(-50%) translateY(-500px) !important;
+    opacity: 1 !important;
+}
+
+.modale span {
+    text-align: center;
+    font-family: Wotfard-Medium;
+    font-size: 30px;
+    padding: 30px;
+}
+
+.modale > button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.button-ajout-panier, .button-ajout-liste {
+    font-family: Wotfard-Regular;
+    border-radius: 4px;
+    color: black;
+    padding: 5px;
+    color: whitesmoke;
+    font-size: 20px;
+}
+
+.button-ajout-panier {
+    background-color: #5c7d5c;
+}
+
+.button-ajout-liste {
+    background-color: #003366;
+}
+
+.form {
+    width: 100%;
+    height: 20px;
 }

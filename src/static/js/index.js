@@ -52,3 +52,22 @@ function ajouteCategorie(categorie) {
 
     filtreProduits();
 }
+
+window.onload = () => {
+    let produits = document.getElementsByClassName("produit");
+    let modale = document.getElementById("modale");
+    for(let i = 0; i < produits.length; i++) {
+        let element = produits[i];
+        element.addEventListener("click", (e) => {
+            if(!modale.classList.contains("active") && document.getElementById("selection")) {
+                document.getElementById("selection").innerHTML = document.getElementById(element.id + "nom").innerHTML;
+            }
+            document.getElementById("modale").classList.toggle("active")
+        })
+
+    }
+}
+
+function closeModale() {
+    document.getElementById("modale").classList.remove("active");
+}

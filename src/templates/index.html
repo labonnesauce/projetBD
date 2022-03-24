@@ -44,19 +44,39 @@
 
             <div class="produits">
                 {% for produit in data.tousProduits %}
-                    <a href="/produit" class="produit">
+                    <div id="produit-{{produit[0]}}" class="produit">
                         <div class="produit-img-container">
                             <img class="produit-img" src="{{produit[5]}}"/>
                         </div>
                         <div class="produit-info">
                             <div class="produit-all-info">
                                 <span class="produit-category">{{produit[6]}}</span>
-                                <span class="produit-nom">{{produit[1]}}</span>
+                                <span id="produit-{{produit[0]}}nom" class="produit-nom">{{produit[1]}}</span>
                                 <span class="price">{{produit[2]}}$</span>
+                                <span class="desc">{{produit[4]}}</span>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 {% endfor %}
+            </div>
+
+            <div id="modale" class="modale">
+                <button onclick="closeModale()">X</button>
+                {% if data.user.connecte %}
+                <span class="selection" id="selection"></span>
+                <form method="post">
+                    <button type="submit" class="button-ajout-panier">
+                        Ajouter à mon panier
+                    </button>
+                </form>
+                <form method="post">
+                    <button type="submit" class="button-ajout-liste">
+                        Ajouter à mes souhaits
+                    </button>
+                </form>
+                {% else %}
+                <span>Connectez-vous pour ajouter des produits à votre panier ou votre liste de souhaits.</span>
+                {% endif %}
             </div>
         </div>
     </main>
