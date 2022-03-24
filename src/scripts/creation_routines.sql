@@ -1,3 +1,5 @@
+#fonction total commande, je recois id_produit et quantité. prix fix taxes
+
 DELIMITER //
 CREATE TRIGGER HeureLivraisonInvalide
     BEFORE INSERT ON commander
@@ -14,7 +16,7 @@ DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER AssignationLivreur
-    BEFORE UPDATE ON commander
+    BEFORE INSERT ON commander
     FOR EACH ROW
     BEGIN
         if (SELECT COUNT(*) FROM livreur L WHERE L.statut = 'attente') = 0

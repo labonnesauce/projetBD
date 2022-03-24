@@ -140,7 +140,7 @@ def insert_commandes(cursor):
             randint(1, 100),
             randint(1, 20),
             quantite,
-            quantite * prix_individuel* 1.15,
+            quantite * prix_individuel * 1.15 + 10,
             random_date_start,
             random_date_end,
             randint(0,1)
