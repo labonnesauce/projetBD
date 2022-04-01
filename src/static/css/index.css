@@ -245,7 +245,7 @@ and (max-width: 900px){
     flex-direction: column;
     position: fixed;
     width: 300px;
-    background-color: #fff8f8;;
+    background-color: #fff8f8;
     border-radius: 10px;
     left: 50%;
     align-items: center;
@@ -266,7 +266,7 @@ and (max-width: 900px){
     text-align: center;
     font-family: Wotfard-Medium;
     font-size: 30px;
-    padding: 30px;
+    padding: 20px;
 }
 
 .modale > button {
@@ -280,8 +280,16 @@ and (max-width: 900px){
     border-radius: 4px;
     color: black;
     padding: 5px;
+    margin: 5px;
     color: whitesmoke;
     font-size: 20px;
+    width: 250px;
+    cursor: pointer;
+    transition: transform .1s;
+}
+
+.button-ajout-panier:hover, .button-ajout-liste:hover {
+    transform: scale(1.05);
 }
 
 .button-ajout-panier {
@@ -295,4 +303,21 @@ and (max-width: 900px){
 .form {
     width: 100%;
     height: 20px;
+}
+
+.no-dis {
+    font-size: 10px;
+    color: #fff8f8;
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0;
+}
+
+.id-prod {
+    font-size: 12px;
+    padding-top: 15px;
+    font-family: Wotfard-Regular;
+    color: black;
 }

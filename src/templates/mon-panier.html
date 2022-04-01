@@ -1,0 +1,61 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L'Aventure Nordique</title>
+    <link rel="stylesheet" href="../static/css/mon-panier.css">
+    <link rel="stylesheet" href="../static/css/global.css">
+</head>
+<body>
+    {% include './components/header.html' %}
+    {% include './components/message.html' %}
+
+    <main>
+        <div class="main-container">
+            {% if data.user.connecte %}
+            <div class="deja-connecte">
+                <span class="deja-connecte-text">
+                    Informations de la commande
+                </span>
+                <form action="/commander" method="post">
+                    <button class="btn-commander" type="submit">Passer la commande</button>
+                </form>
+                <div class="produits">
+                {% for produit in data.panier %}
+                    <div id="produit-{{produit[0]}}" class="produit">
+                        <div class="produit-img-container">
+                            <img class="produit-img" src="{{produit[5]}}"/>
+                        </div>
+
+                        <form>
+                            <div class="produit-info">
+                                <div class="produit-all-info">
+                                    <span class="produit-category">{{produit[6]}}</span>
+                                    <span id="produit-{{produit[0]}}nom" class="produit-nom">{{produit[1]}}</span>
+                                    <span class="price">Prix individuel: {{produit[2]}}$</span>
+                                    <span class="id-prod">Numéro de produit: {{produit[0]}}</span>
+                                    <div class="flex-row">
+                                        <label for="quantite">Quantité:</label>
+                                        <input name="quantite" id="quantite" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+
+            {% else %}
+            <div class="inscription">
+                <span class="mon-panier-nc">Connectez-vous pour accéder à votre panier et y ajouter des items.</span>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    {% include './components/footer.html' %}
+</body>
+</html>

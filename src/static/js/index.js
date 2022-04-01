@@ -39,7 +39,6 @@ function filtreProduits() {
 
 function ajouteCategorie(categorie) {
     let cat = categorie.id;
-    console.log("appel", cat)
 
     if(categoriesActives.indexOf(cat) === -1) {
         categoriesActives.push(categorie.id);
@@ -48,8 +47,6 @@ function ajouteCategorie(categorie) {
         categoriesActives.splice(categoriesActives.indexOf(cat), 1);
         categorie.classList.remove("category-active");
     }
-    console.log(categoriesActives)
-
     filtreProduits();
 }
 
@@ -61,10 +58,11 @@ window.onload = () => {
         element.addEventListener("click", (e) => {
             if(!modale.classList.contains("active") && document.getElementById("selection")) {
                 document.getElementById("selection").innerHTML = document.getElementById(element.id + "nom").innerHTML;
+                document.getElementById("selection-panier").setAttribute("value", element.id.split("-")[1]);
+                document.getElementById("selection-souhait").setAttribute("value", element.id.split("-")[1]);
             }
             document.getElementById("modale").classList.toggle("active")
         })
-
     }
 }
 

@@ -1,0 +1,151 @@
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-height: calc(100vh - 60px - 300px);
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.mon-panier-nc {
+    text-align: center;
+    font-family: Wotfard-Medium;
+    font-size: 30px;
+}
+
+.deja-connecte-text {
+    font-size: 25px;
+    border-bottom: 1px solid black;
+    font-family: Wotfard-Regular;
+}
+
+.deja-connecte {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-commander {
+    cursor: pointer;
+    transition: transform .1s;
+    padding: 10px;
+    color: whitesmoke;
+    border-radius: 4px;
+    background-color: #003366;
+    margin-top: 10px;
+}
+
+.btn-commander:hover {
+    transform: scale(1.05);
+}
+
+.produits {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 50px 0 100px 0;
+}
+
+@media screen
+and (max-width: 1300px){
+    .produits {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen
+and (max-width: 1000px){
+    .produits {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.produit {
+    position: relative;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: whitesmoke;
+    box-shadow: 1px 5px 15px -8px rgba(0,0,0,0.38);
+    transition: box-shadow .1s;
+}
+
+.produit:hover {
+        box-shadow: 1px 5px 15px -5px rgba(0,0,0,0.78);
+}
+
+.produit-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.produit-all-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.produit-nom {
+    font-family: "Wotfard-Medium";
+    font-size: 20px;
+    color: black;
+}
+
+.price {
+    color: black;
+    margin-top: 4px;
+    font-family: "Wotfard-Regular";
+    font-size: 16px;
+}
+
+.produit-img {
+    width: 100%;
+    overflow: hidden;
+    background-size: contain;
+}
+
+.produit-img-container {
+    padding: 10px;
+    box-sizing: border-box;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+    height: 300px;
+}
+
+.produit-category {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    font-family: "Wotfard-Medium";
+    border-radius: 3px;
+    color: white;
+    background-color: #003366;
+    padding: 5px;
+}
+
+.id-prod {
+    font-family: Wotfard-Regular;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-family: Wotfard-Regular;
+}
+
+.flex-row label {
+    margin-right: 5px;
+}
+
+.flex-row input {
+    width: 40px;
+}

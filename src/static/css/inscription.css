@@ -74,17 +74,3 @@ main {
     font-size: 20px;
     font-family: "Wotfard-Regular";
 }
-
-.msg-erreur {
-    font-family: Wotfard-Bold;
-    color: red;
-    padding-top: 35px;
-    font-size: 25px;
-}
-
-.msg-succes {
-    padding-top: 35px;
-    font-size: 25px;
-    color: green;
-    font-family: Wotfard-Bold;
-}

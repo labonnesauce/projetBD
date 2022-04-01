@@ -1,0 +1,27 @@
+.msg-flex {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    padding: 10px;
+    top: 60px;
+    justify-content: space-between;
+    font-family: Wotfard-Regular;
+    z-index: 100000;
+}
+
+.msg-erreur {
+    width: 300px;
+    border: 2px solid black;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #ea3b3b;
+}
+
+.msg-succes {
+    border: 2px solid black;
+    width: 300px;
+    border-radius: 10px;
+    background-color: #4be04b;
+    padding: 15px;
+}

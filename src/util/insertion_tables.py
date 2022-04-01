@@ -1,3 +1,4 @@
+import hashlib
 from random import *
 from .connection import open_connection, close_connection_and_cursor
 from datetime import date, timedelta
@@ -15,10 +16,10 @@ LOREM_IPSUM = ["Pellentesque diam volutpat commodo sed egestas egestas fringilla
                "Donec non quam enim Sed consectetur tellus non odio posuere iaculis Class aptent taciti sociosqu Also litora torquent per conubia nostra per inceptos himenaeos",
                "Phasellus eu sapien eu augue gravida fermentum porta non ex Mauris nec rhoncus leoriegh Maecenas auctor tellus in urna malesuada aasdo posuere estssee iaculis", "Utsios enim ad minima veniam, quiss nostrum exercitationem ullam corporis suscipit laboriosam, nisi utasde aliquid exdd eaer commodi consequatur Quis autem velour eumum iure reprehenderit quiquon iner earon voluptate velit esse quam nihil molestiae consequatur, velon illum quiquon dolorem eumee fugiat quo voluptas nulla pariatur?"]
 
-NOMS_FAMILLE = ["Gagnon", "Roy", "Côté", "Bouchard", "Gauthier", "Morin", "Lavoie", "Fortin", "Gagné", "Ouellet", "Pelletier", "Bélanger",
-                "Lévesque", "Bergeron", "Leblanc", "Paquette", "Simard", "Boucher", "Beaulieu", "Poirier", "Martin", "Grenier"]
+NOMS_FAMILLE = ["Gagnon", "Roy", "Cote", "Bouchard", "Gauthier", "Morin", "Lavoie", "Fortin", "Gagne", "Ouellet", "Pelletier", "Belanger",
+                "Levesque", "Bergeron", "Leblanc", "Paquette", "Simard", "Boucher", "Beaulieu", "Poirier", "Martin", "Grenier"]
 
-PRENOMS = ["Jacob", "Zoé", "Victoria", "Barth", "Béatrice", "Liam", "Thomas", "Sophia", "Nathan", "Léo", "Charlie", "Florence", "Édouard", "Félix", "Charlotte", "Amélie", "Amélia", "Noah", "Justine", "Juliette", "Olivia"]
+PRENOMS = ["Jacob", "Zoe", "Victoria", "Barth", "Beatrice", "Liam", "Thomas", "Sophia", "Nathan", "Leo", "Charlie", "Florence", "Edouard", "Felix", "Charlotte", "Amelie", "Amelia", "Noah", "Justine", "Juliette", "Olivia"]
 
 STATUT_LIVREUR = ["occupé", "attente"]
 
@@ -35,6 +36,7 @@ def insert_donnees():
     insert_livreurs(cursor)
     insert_commandes(cursor)
     insert_souhaiter(cursor)
+    insert_motdepasse(cursor)
 
     close_connection_and_cursor(conn, cursor)
 
@@ -51,7 +53,7 @@ def insert_categories(cursor):
         print(e)
 
 def insert_clients(cursor):
-    requete = "INSERT INTO Client(telephone, courriel, adresse, nom_famille, prenom) VALUES('{0}', '{1}', '{2}', '{3}', '{4}')"
+    requete = "INSERT INTO Client(telephone, courriel, adresse, nom_famille, prenom) VALUES('{0}', '{1}', '{2}', '{4}', '{3}')"
 
     COURRIELS = set()
     for i in range(1, 101):
@@ -69,10 +71,6 @@ def insert_clients(cursor):
             ))
     except Exception as e:
         print(e)
-
-def insert_mots_de_passe(cursor):
-    # do nothing for now
-    cursor = cursor
 
 def insert_produits(cursor):
     requete = "INSERT INTO Produit(categorie_id, nom, prix, poids, description, image) VALUES({0}, '{1}', {2}, {3}, '{4}', '{5}')"
@@ -165,6 +163,17 @@ def insert_souhaiter(cursor):
     except Exception as e:
         print(e)
 
+def insert_motdepasse(cursor):
+    requete = "INSERT INTO MotDePasse(client_id, mot_de_passe) VALUES({0}, '{1}')"
+
+    for i in range(1, 101):
+        pw = ''.join(LETTRES[randint(0, len(LETTRES)-1)] for x in range(15))
+        hash_bd = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+
+        cursor.execute(requete.format(
+            i,
+            hash_bd
+        ))
 
 def getRandomImage(cursor, categorie_id):
     requete = "SELECT C.nom FROM Categorie C WHERE {0} = C.id"

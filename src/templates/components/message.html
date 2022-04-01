@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="../../static/css/global.css">
+    <link rel="stylesheet" href="../static/css/message.css">
+    <script defer src="../../static/js/message.js"></script>
+    <script src="../../static/app.js"></script>
+</head>
+    <div class="msg-flex">
+        {% if data.message.erreur.active %}
+        <div id="msg-erreur" class="msg-erreur">
+            {{data.message.erreur.value}}
+        </div>
+        {% endif %}
+
+        {% if data.message.succes.active %}
+        <div id="msg-succes" class="msg-succes">
+            {{data.message.succes.value}}
+        </div>
+        {% endif %}
+    </div>
+</html>

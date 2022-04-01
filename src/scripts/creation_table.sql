@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS Client (
     id          INT(20)       PRIMARY KEY AUTO_INCREMENT,
     telephone   VARCHAR(10)   NOT NULL,
     courriel    VARCHAR(100)  NOT NULL UNIQUE,
-    adresse     VARCHAR(100)  NOT NULL,
+    adresse     VARCHAR(100),
     nom_famille VARCHAR(100)  NOT NULL,
     prenom      VARCHAR(100)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS MotDePasse (
     client_id    INT(20)      PRIMARY KEY,
-    mot_de_passe VARCHAR(100) NOT NULL,
+    mot_de_passe BINARY(64)   NOT NULL,
       CONSTRAINT FK_client_id_motpasse FOREIGN KEY (client_id) REFERENCES Client (id)
 );
 

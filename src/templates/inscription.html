@@ -10,6 +10,7 @@
 </head>
 <body>
     {% include './components/header.html' %}
+    {% include './components/message.html' %}
 
     <main>
         <div class="main-container">
@@ -33,14 +34,8 @@
                     <input name="prenom" placeholder="Prénom" type="text" required/>
                     <input name="nom_de_famille" placeholder="Nom" type="text" required/>
                     <input name="mot_de_passe" placeholder="Mot de passe" type="password" required/>
-                    <input name="telephone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Téléphone: 123-456-7890" type="tel"/>
+                    <input name="telephone" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" placeholder="Téléphone: 1234567890" type="tel"/>
                     <button type="submit">Se connecter</button>
-                    {% if data.message.erreur %}
-                    <span class="msg-erreur">{{data.message.erreur}}</span>
-                    {% endif %}
-                    {% if data.message.succes %}
-                    <span class="msg-succes">{{data.message.succes}}</span>
-                    {% endif %}
                 </form>
             </div>
             {% endif %}

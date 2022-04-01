@@ -8,6 +8,7 @@
 </head>
 <body>
     {% include './components/header.html' %}
+    {% include './components/message.html' %}
 
     <main>
         <div class="main-container">
@@ -54,6 +55,7 @@
                                 <span id="produit-{{produit[0]}}nom" class="produit-nom">{{produit[1]}}</span>
                                 <span class="price">{{produit[2]}}$</span>
                                 <span class="desc">{{produit[4]}}</span>
+                                <span class="id-prod">Numéro de produit: {{produit[0]}}</span>
                             </div>
                         </div>
                     </div>
@@ -64,13 +66,16 @@
                 <button onclick="closeModale()">X</button>
                 {% if data.user.connecte %}
                 <span class="selection" id="selection"></span>
-                <form method="post">
-                    <button type="submit" class="button-ajout-panier">
+                <span class="id" id="selection-id"></span>
+                <form action="/ajout-panier" method="post">
+                    <input name="produit-id" class="no-dis" id="selection-panier">
+                    <button id="button-panier" type="submit" class="button-ajout-panier">
                         Ajouter à mon panier
                     </button>
                 </form>
-                <form method="post">
-                    <button type="submit" class="button-ajout-liste">
+                <form action="/ajout-souhait" method="post">
+                    <input name="produit-id" class="no-dis" id="selection-souhait">
+                    <button id="button-liste" type="submit" class="button-ajout-liste">
                         Ajouter à mes souhaits
                     </button>
                 </form>

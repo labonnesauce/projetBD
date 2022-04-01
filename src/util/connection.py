@@ -7,7 +7,9 @@ def open_connection():
         user="newUser",
         db="projet_glo2005",
         password="newUserPassword",
-        autocommit=True
+        autocommit=True,
+        charset='utf8',
+        use_unicode=True
     )
 
     cursor = connection.cursor();
@@ -40,3 +42,8 @@ def execute_commande_bd(requete, fetchOne):
     else:
         data = cursor.fetchall()
     return data
+
+
+def execute_sans_resultat(requete):
+    conn, cursor = open_connection()
+    cursor.execute(requete)
