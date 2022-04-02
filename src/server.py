@@ -1,5 +1,8 @@
 import base64
+import datetime
 import hashlib
+import random
+import time
 
 from cryptography.fernet import Fernet
 from flask import Flask, render_template, jsonify, request, Response, redirect
@@ -10,7 +13,7 @@ import re
 app = Flask(__name__)
 global data
 data = {"message": {"erreur": {"active": False, "value": None}, "succes": {"active": False, "value": None}},
-        "commandesClient": (), "panier": [], "user": {"connecte": False, "nom_famille": "", "prenom": "", id: None}}
+        "commandesClient": (), "panier": [], "user": {"adresse": None, "connecte": False, "nom_famille": "", "prenom": "", "id": None}}
 
 
 def setMessage(active, type, value):
@@ -21,7 +24,7 @@ def resetData():
     data["message"] = {"erreur": {"active": False, "value": None}, "succes": {"active": False, "value": None}}
     data["commandesClient"] = ()
     data["panier"] = []
-    data["user"] = {"connecte": False, "nom_famille": "", "prenom": "", id: None}
+    data["user"] = {"adresse": None, "connecte": False, "nom_famille": "", "prenom": "", "id": None}
 
 
 @app.before_request
@@ -29,6 +32,50 @@ def before_request_callback():
     data["message"]["erreur"] = {"active": False, "value": None}
     data["message"]["succes"] = {"active": False, "value": None}
 
+@app.route("/commander", methods=["POST"])
+def commander():
+    produits = request.form.to_dict()
+    for quantite in produits.values():
+        if quantite == "":
+            setMessage(True, "erreur", "Impossible de commander un produit 0 fois.")
+            return render_template("mon-panier.html", data=data)
+        if int(quantite) > 100:
+            setMessage(True, "erreur", "Impossible de commander un produit plus de 100 fois dans une seule commande.")
+            return render_template("mon-panier.html", data=data)
+
+    for produit, quantite in produits.items():
+        id = int(produit.split("-")[1])
+        requetePrix = "SELECT CalculPrixTotal({0}, {1});"
+        requeteLivreur = "SELECT LivreurAvecMoinsCommande();"
+
+        try:
+            livreurId = bd.execute_commande_bd(requeteLivreur, True)[0]
+        except Exception as e:
+            livreurId = "null"
+
+        total = bd.execute_commande_bd(requetePrix.format(
+            int(id),
+            int(quantite)
+        ), True)[0]
+
+        requeteInsertCommander = "INSERT INTO Commander (produit_id, client_id, livreur_id, prix, date_commande, date_livraison, recu, quantite)" \
+                                 " VALUES({0}, {1}, {2}, {3}, '{4}', '{5}', {6}, {7})"
+
+        bd.execute_sans_resultat(requeteInsertCommander.format(
+            id,
+            data["user"].get("id"),
+            livreurId,
+            total,
+            datetime.date.fromtimestamp(time.time()),
+            datetime.date.fromtimestamp(time.time()) + datetime.timedelta(days=random.randint(2, 7)),
+            0,
+            int(quantite)
+        ))
+
+    setMessage(True, "succes", "Commande passée avec succès. Ses informations seront affichées sur votre profil.")
+    data["panier"] = []
+
+    return render_template("mon-panier.html", data=data)
 
 @app.route('/inscription', methods=['GET'])
 def inscription():
@@ -99,7 +146,7 @@ def signup():
         setMessage(True, "erreur", "Une exception est survenue.")
         return render_template("inscription.html", data=data)
 
-    data["user"] = {"connecte": True, "nom_famille": nom_de_famille, "prenom": prenom, id: id_user}
+    data["user"] = {"adresse": None, "connecte": True, "nom_famille": nom_de_famille, "prenom": prenom, "id": id_user}
     setMessage(True, "succes", "Compte créé avec succès. Bon magasinage!")
 
     return render_template("index.html", data=data)
@@ -167,7 +214,7 @@ def connexion():
 
         if hash_bd[0] == hashlib.sha256(mot_de_passe.encode("utf-8")).hexdigest().encode():
             setMessage(True, "succes", "Bonjour, " + user[5] + "!")
-            data["user"] = {"connecte": True, "nom_famille": user[4], "prenom": user[5], id: user[0]}
+            data["user"] = {"adresse": user[3], "connecte": True, "nom_famille": user[4], "prenom": user[5], "id": user[0]}
             return render_template("se-connecter.html", data=data)
         else:
             setMessage(True, "erreur", "Le mot de passe est invalide.")
@@ -216,7 +263,7 @@ if __name__ == '__main__':
     requeteGetTousProduits = "SELECT P.id, P.nom, P.prix, P.poids, P.description, P.image, C.nom as Catégorie from Produit P, Categorie C WHERE P.categorie_id = C.id ORDER BY P.nom"
     requeteGetTousCategories = "SELECT C.nom FROM Categorie C"
 
-    bd.execute_sans_resultat("INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', null, 'Bessette', 'Jonathan')")
+    bd.execute_sans_resultat("INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', '123', 'Bessette', 'Jonathan')")
     mot_passe = hashlib.sha256('123princesse'.encode('utf-8')).hexdigest()
     bd.execute_sans_resultat("INSERT INTO MotDePasse (client_id, mot_de_passe) VALUES (101, '{0}')".format(mot_passe))
 

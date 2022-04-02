@@ -7,6 +7,7 @@
     <title>L'Aventure Nordique</title>
     <link rel="stylesheet" href="../static/css/mon-panier.css">
     <link rel="stylesheet" href="../static/css/global.css">
+    <script src="../static/js/panier.js"></script>
 </head>
 <body>
     {% include './components/header.html' %}
@@ -16,41 +17,57 @@
         <div class="main-container">
             {% if data.user.connecte %}
             <div class="deja-connecte">
-                <span class="deja-connecte-text">
-                    Informations de la commande
-                </span>
-                <form action="/commander" method="post">
-                    <button class="btn-commander" type="submit">Passer la commande</button>
-                </form>
-                <div class="produits">
-                {% for produit in data.panier %}
-                    <div id="produit-{{produit[0]}}" class="produit">
-                        <div class="produit-img-container">
-                            <img class="produit-img" src="{{produit[5]}}"/>
-                        </div>
+                {% if data.panier|length != 0 %}
+                    <span class="deja-connecte-text">
+                        Informations de la commande
+                    </span>
+                    <div class="adresse">
+                        {% if data.user.adresse %}
+                            Adresse de livraison: {{data.user.adresse}} <br>
+                            <span class="not-bold">Notez que vous pouvez modifier l'adresse de livraison sur <a href="mon-compte">votre profil</a></span><br><br>
+                            <span class="frais">Frais de livraison par groupe d'items: 3$</span><br><br>
+                            <span class="taxe">Taxes appliquées: 15%</span><br><br>
+                            <form action="/commander" method="post">
+                                <button type="submit" class="btn-commander" onclick="openModale()">Passer la commande</button>
+                                <div class="produits">
+                                {% for produit in data.panier %}
+                                    <div id="produit-{{produit[0]}}" class="produit">
+                                        <div class="produit-img-container">
+                                            <img class="produit-img" src="{{produit[5]}}"/>
+                                        </div>
 
-                        <form>
-                            <div class="produit-info">
-                                <div class="produit-all-info">
-                                    <span class="produit-category">{{produit[6]}}</span>
-                                    <span id="produit-{{produit[0]}}nom" class="produit-nom">{{produit[1]}}</span>
-                                    <span class="price">Prix individuel: {{produit[2]}}$</span>
-                                    <span class="id-prod">Numéro de produit: {{produit[0]}}</span>
-                                    <div class="flex-row">
-                                        <label for="quantite">Quantité:</label>
-                                        <input name="quantite" id="quantite" value="1">
+                                        <div class="produit-info">
+                                            <div class="produit-all-info">
+                                                <span class="produit-category">{{produit[6]}}</span>
+                                                <span id="produit-{{produit[0]}}nom" class="produit-nom">{{produit[1]}}</span>
+                                                <span class="price">Prix après taxes: {{'%0.2f'|format((produit[2]*1.15)|float)}}$</span>
+                                                <span class="id-prod">Numéro de produit: {{produit[0]}}</span>
+                                                <div class="flex-row">
+                                                    <label for="quantite-{{produit[0]}}">Quantité:</label>
+                                                    <input id="quantite-{{produit[0]}}" name="quantite-{{produit[0]}}" value="1">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                {% endfor %}
                                 </div>
-                            </div>
-                        </form>
+
+                            </form>
+                        {% else %}
+                            Impossible de passer la commande: vous n'avez pas associé une
+                            adresse de livraison à votre compte. Veuillez modifier l'adresse de livraison sur a <a href="mon-compte">votre profil</a>.
+                        {% endif %}
                     </div>
-                {% endfor %}
+                {% else %}
+                <div class="inscription">
+                    <span class="mon-panier-nc">Votre panier est vide!</span>
                 </div>
+                {% endif %}
             </div>
 
             {% else %}
             <div class="inscription">
-                <span class="mon-panier-nc">Connectez-vous pour accéder à votre panier et y ajouter des items.</span>
+                <span class="mon-panier-nc">Connectez-vous pour accéder à votre panier et y ajouter des produits.</span>
             </div>
             {% endif %}
         </div>

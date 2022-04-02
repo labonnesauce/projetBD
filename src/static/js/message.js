@@ -1,14 +1,14 @@
-let timeout = 2000;
+let timeout = 4000;
 
 if(document.getElementById("msg-erreur") != undefined) {
     setTimeout(() => {
-        document.getElementById("msg-erreur").style.opacity = "0";
+        document.getElementById("msg-erreur").classList.add("fadeout");
     }, timeout)
 }
 
 if(document.getElementById("msg-succes") != undefined) {
     setTimeout(() => {
-        document.getElementById("msg-succes").style.opacity = "0";
+        document.getElementById("msg-succes").classList.add("fadeout");
     }, timeout)
 }
 

@@ -6,26 +6,28 @@ DROP TRIGGER IF EXISTS CourrielDejaPresent;
 
 DELIMITER //
 CREATE FUNCTION CalculPrixTotal(produit_id INT(20), quantite INT(20)) RETURNS FLOAT(10,2) DETERMINISTIC
-BEGIN
+    BEGIN
         DECLARE prix_unitaire FLOAT(10,2);
         DECLARE total FLOAT(10,2);
 
         SELECT P.prix into prix_unitaire FROM Produit P WHERE P.id = produit_id;
-        SET total = prix_unitaire * quantite * 1.15 + 10;
+        SET total = prix_unitaire * quantite * 1.15 + 3;
         RETURN total;
-END //
+    END //
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER AssignationLivreur
-    BEFORE INSERT ON Commander
-    FOR EACH ROW
+CREATE FUNCTION LivreurAvecMoinsCommande() RETURNS INT(20) DETERMINISTIC
     BEGIN
+        DECLARE idLivreur INT(20);
         IF (SELECT COUNT(*) FROM Livreur L WHERE L.statut = 'attente') = 0
         THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = "Aucun livreur n'est disponible en ce moment";
+        ELSE SELECT L.id INTO idLivreur FROM Livreur L WHERE L.statut = 'attente' ORDER BY RAND() LIMIT 1;
         END IF;
+
+        RETURN idLivreur;
     END //
 DELIMITER ;
 

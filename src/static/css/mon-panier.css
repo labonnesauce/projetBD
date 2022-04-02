@@ -68,12 +68,14 @@ and (max-width: 1000px){
 }
 
 .produit {
+    width: 300px;
     position: relative;
     border-radius: 5px;
     margin: 10px;
     background-color: whitesmoke;
     box-shadow: 1px 5px 15px -8px rgba(0,0,0,0.38);
     transition: box-shadow .1s;
+    font-weight: normal !important;
 }
 
 .produit:hover {
@@ -149,3 +151,72 @@ and (max-width: 1000px){
 .flex-row input {
     width: 40px;
 }
+
+.modale {
+    opacity: 0;
+    border-radius: 4px;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px; /* Negative half of height. */
+    margin-left: -200px; /* Negative half of width. */
+    box-shadow: 1px 5px 15px -8px rgba(0,0,0,0.38);
+    background-color: #e5e3e3;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 500px;
+    padding: 20px;
+    overflow-x: hidden;
+    align-items: center;
+}
+
+.resume {
+    font-size: 20px;
+    border-bottom: 1px solid black;
+    font-family: Wotfard-Regular;
+}
+
+.chiffres {
+    width: 50%;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.chiffres button {
+    width: 30px;
+    cursor: pointer;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.chiffres button:hover {
+    transform: scale(1.05);
+}
+
+.button-selected {
+    background-color: #5c7d5c;
+    color: white;
+    font-weight: bolder;
+}
+
+.adresse {
+    font-family: Wotfard-Regular;
+    font-size: 16px;
+    padding: 20px 20px 20px 0;
+    font-weight: bold;
+}
+
+.not-bold {
+    font-weight: 300 !important;
+}
+
+.op1 {
+    opacity: 1 !important;
+    z-index: 10000;
+}
+
+.sur {}
