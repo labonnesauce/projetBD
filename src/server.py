@@ -257,6 +257,7 @@ if __name__ == '__main__':
 
     # Rouler la commande "mysql -u root -p < scripts/creation_bd.sql" avant de lancer ce fichier.
     bd.execute_file("scripts/creation_table.sql")
+    bd.execute_file("scripts/creation_index.sql")
     insertion.insert_donnees()
 
     # Insertion des produits de la base de données
