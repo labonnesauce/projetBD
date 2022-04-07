@@ -5,7 +5,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>L'Aventure Nordique</title>
-    <link rel="stylesheet" href="../static/css/mes-souhaits.css">
+    <link rel="stylesheet" href="../static/css/mon-compte.css">
     <link rel="stylesheet" href="../static/css/global.css">
 </head>
 <body>
@@ -66,6 +66,17 @@
                                     <div class="jc produit-date2">
                                         <span>Date livré: </span>
                                         <span>{{commande[3]}}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if commande[7] %}
+                                    <div class="jc produit-date2">
+                                        <span>Livreur:</span>
+                                        <span>{{commande[7]}}</span>
+                                    </div>
+                                    {% else %}
+                                    <div class="jc produit-date2">
+                                        <span>Livreur:</span>
+                                        <span>information indisponible</span>
                                     </div>
                                     {% endif %}
                                 </div>

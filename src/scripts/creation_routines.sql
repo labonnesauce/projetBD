@@ -5,10 +5,10 @@ DROP TRIGGER IF EXISTS AssignationLivreur;
 DROP TRIGGER IF EXISTS CourrielDejaPresent;
 
 DELIMITER //
-CREATE FUNCTION CalculPrixTotal(produit_id INT(20), quantite INT(20)) RETURNS FLOAT(10,2) DETERMINISTIC
+CREATE FUNCTION CalculPrixTotal(produit_id INTEGER, quantite INTEGER) RETURNS FLOAT DETERMINISTIC
     BEGIN
-        DECLARE prix_unitaire FLOAT(10,2);
-        DECLARE total FLOAT(10,2);
+        DECLARE prix_unitaire FLOAT;
+        DECLARE total FLOAT;
 
         SELECT P.prix into prix_unitaire FROM Produit P WHERE P.id = produit_id;
         SET total = prix_unitaire * quantite * 1.15 + 3;
@@ -17,9 +17,9 @@ CREATE FUNCTION CalculPrixTotal(produit_id INT(20), quantite INT(20)) RETURNS FL
 DELIMITER ;
 
 DELIMITER //
-CREATE FUNCTION LivreurAvecMoinsCommande() RETURNS INT(20) DETERMINISTIC
+CREATE FUNCTION LivreurAvecMoinsCommande() RETURNS INTEGER DETERMINISTIC
     BEGIN
-        DECLARE idLivreur INT(20);
+        DECLARE idLivreur INTEGER;
         IF (SELECT COUNT(*) FROM Livreur L WHERE L.statut = 'attente') = 0
         THEN
             SIGNAL SQLSTATE '45000'

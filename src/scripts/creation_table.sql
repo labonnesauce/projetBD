@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Categorie;
 DROP TABLE IF EXISTS Livreur;
 
 CREATE TABLE IF NOT EXISTS Client (
-    id          INT(20)       PRIMARY KEY AUTO_INCREMENT,
+    id          INTEGER       PRIMARY KEY AUTO_INCREMENT,
     telephone   VARCHAR(10)   NOT NULL,
     courriel    VARCHAR(100)  NOT NULL UNIQUE,
     adresse     VARCHAR(100),
@@ -16,23 +16,23 @@ CREATE TABLE IF NOT EXISTS Client (
 );
 
 CREATE TABLE IF NOT EXISTS MotDePasse (
-    client_id    INT(20)      PRIMARY KEY,
+    client_id    INTEGER      PRIMARY KEY,
     mot_de_passe BINARY(64)   NOT NULL,
       CONSTRAINT FK_client_id_motpasse FOREIGN KEY (client_id) REFERENCES Client (id)
 );
 
 CREATE TABLE IF NOT EXISTS Categorie (
-    id          INT(20)  PRIMARY KEY AUTO_INCREMENT,
+    id          INTEGER  PRIMARY KEY AUTO_INCREMENT,
     nom         VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Produit (
-    id           INT(20)      PRIMARY KEY AUTO_INCREMENT,
-    categorie_id INT(20)      NOT NULL,
+    id           INTEGER      PRIMARY KEY AUTO_INCREMENT,
+    categorie_id INTEGER      NOT NULL,
     nom          VARCHAR(100) NOT NULL,
-    prix         FLOAT(10,2)  NOT NULL,
-    poids        INT(20)      NOT NULL,
+    prix         FLOAT        NOT NULL,
+    poids        INTEGER      NOT NULL,
     description  VARCHAR(500) NOT NULL,
     image        VARCHAR(50)  NOT NULL,
       CONSTRAINT FK_categorie_id FOREIGN KEY (categorie_id) REFERENCES Categorie (id)
@@ -53,15 +53,15 @@ CREATE TABLE IF NOT EXISTS Livreur (
 );
 
 CREATE TABLE IF NOT EXISTS Commander (
-      id             INT(20)      PRIMARY KEY AUTO_INCREMENT,
-      produit_id     INT(20)      NOT NULL,
-      client_id      INT(20)      NOT NULL,
-      livreur_id     INT(20)      NOT NULL,
-      prix           FLOAT(10,2)  NOT NULL,
+      id             INTEGER      PRIMARY KEY AUTO_INCREMENT,
+      produit_id     INTEGER      NOT NULL,
+      client_id      INTEGER      NOT NULL,
+      livreur_id     INTEGER      NOT NULL,
+      prix           FLOAT        NOT NULL,
       date_commande  DATE         NOT NULL,
       date_livraison DATE         NOT NULL,
       recu           INT(1)       NOT NULL DEFAULT FALSE,
-      quantite       INT(20)      NOT NULL,
+      quantite       INTEGER      NOT NULL,
         CONSTRAINT FK_client_id_commande FOREIGN KEY (client_id) REFERENCES Client (id),
         CONSTRAINT FK_produit_id_commande FOREIGN KEY (produit_id) REFERENCES Produit (id),
         CONSTRAINT FK_livreur_id_commande FOREIGN KEY (livreur_id) REFERENCES Livreur (id)

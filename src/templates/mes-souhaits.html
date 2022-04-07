@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L'Aventure Nordique</title>
+    <link rel="stylesheet" href="../static/css/mes-souhaits.css">
+    <link rel="stylesheet" href="../static/css/global.css">
+</head>
+<body>
+    {% include './components/header.html' %}
+    {% include './components/message.html' %}
+
+    <main>
+        <div class="main-container">
+            {% if data.user.connecte %}
+            <span class="title">Ma liste de souhaits</span>
+            {% if data.souhaits|length == 0 %}
+                <span class="vide">Votre liste est vide!</span>
+            {% endif %}
+            <div class="deja-connecte">
+                {% for produit in data.souhaits %}
+                <div class="produit">
+                    <form method="post"  action="/retire-souhait">
+                        <input class="display-none" value="{{produit[2]}}" name="produit"/>
+                        <button class="boutton" class="submit">X</button>
+                        <div class="produit-img-container">
+                            <img class="produit-img" src="{{produit[1]}}"/>
+                        </div>
+                        <div class="center">{{produit[0]}}</div>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <div class="connexion">
+                <span>Connectez-vous pour visualiser votre liste de souhaits!</span>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    {% include './components/footer.html' %}
+</body>
+</html>

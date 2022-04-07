@@ -134,9 +134,6 @@ and (max-width: 1000px){
 }
 
 .produit-category {
-    position: absolute;
-    top: 20px;
-    left: 15px;
     font-family: "Wotfard-Medium";
     border-radius: 3px;
     color: white;
@@ -320,4 +317,37 @@ and (max-width: 900px){
     padding-top: 15px;
     font-family: Wotfard-Regular;
     color: black;
+}
+
+.cat {
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.produit-category {
+    position: absolute;
+    top: 0;
+}
+
+.cat-desc {
+    background-color: whitesmoke;
+    font-family: Wotfard-Regular;
+    opacity: 0;
+    padding: 10px;
+    width: 100%;
+    left: -6px;
+    position: relative;
+    box-sizing: border-box;
+    border: 2px solid black;
+    transition: opacity .1s;
+    top: 35px;
+    position: relative;
+}
+
+.produit-category:hover + .cat-desc {
+    opacity: 1;
 }

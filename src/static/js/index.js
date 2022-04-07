@@ -14,7 +14,7 @@ function filtreProduits() {
         let element = produits[i];
         let children = produits[i].children
 
-        let category = children[0].innerHTML;
+        let category = children[0].children[0].innerHTML;
         let nom = children[1].innerHTML;
         let price = children[2].innerHTML;
 

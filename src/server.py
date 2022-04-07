@@ -12,8 +12,28 @@ import re
 
 app = Flask(__name__)
 global data
-data = {"message": {"erreur": {"active": False, "value": None}, "succes": {"active": False, "value": None}},
-        "commandesClient": (), "panier": [], "user": {"adresse": None, "connecte": False, "nom_famille": "", "prenom": "", "id": None}}
+data = {"message":
+            {
+                "erreur": {
+                    "active": False,
+                    "value": None
+                },
+                "succes": {
+                    "active": False,
+                    "value": None
+                }
+            },
+        "commandesClient": (),
+        "souhaits": (),
+        "panier": [],
+        "user": {
+            "adresse": None,
+            "connecte": False,
+            "nom_famille": "",
+            "prenom": "",
+            "id": None
+        }
+}
 
 
 def setMessage(active, type, value):
@@ -21,8 +41,9 @@ def setMessage(active, type, value):
 
 
 def resetData():
-    data["message"] = {"erreur": {"active": False, "value": None}, "succes": {"active": False, "value": None}}
     data["commandesClient"] = ()
+    data["message"] = {"erreur": {"active": False, "value": None}, "succes": {"active": False, "value": None}}
+    data["souhaits"] = ()
     data["panier"] = []
     data["user"] = {"adresse": None, "connecte": False, "nom_famille": "", "prenom": "", "id": None}
 
@@ -36,7 +57,7 @@ def before_request_callback():
 def commander():
     produits = request.form.to_dict()
     for quantite in produits.values():
-        if quantite == "":
+        if quantite == "" or quantite == "0":
             setMessage(True, "erreur", "Impossible de commander un produit 0 fois.")
             return render_template("mon-panier.html", data=data)
         if int(quantite) > 100:
@@ -178,8 +199,54 @@ def ajout_panier():
 @app.route("/ajout-souhait", methods=["POST"])
 def ajout_souhait():
     produit = request.form.get("produit-id")
-    return redirect("/")
+    requeteAjouteListe = "INSERT INTO Souhaiter VALUES({0}, {1})"
 
+    try:
+        bd.execute_sans_resultat(requeteAjouteListe.format(
+            data["user"]["id"],
+            produit
+        ))
+    except Exception as e:
+        setMessage(True, "erreur", "Le produit est invalide ou n'existe plus.")
+        return render_template("index.html", data=data)
+
+    setMessage(True, "succes", "Le produit " + produit + " a été ajouté à votre liste de souhaits.")
+    return render_template("index.html", data=data)
+
+@app.route("/retire-souhait", methods=["POST"])
+def retire_souhait():
+
+    produit = request.form.get("produit")
+
+    requeteRetireProduit = "DELETE FROM Souhaiter S WHERE S.client_id = {0} AND S.produit_id = {1}"
+
+    try:
+        bd.execute_sans_resultat(requeteRetireProduit.format(
+            data["user"]["id"],
+            produit
+        ))
+    except Exception as e:
+        setMessage(True, "erreur", "Impossible de retirer ce produit de votre liste. Réessayez plus tard!")
+
+    return redirect("/mes-souhaits")
+
+@app.route("/mes-souhaits", methods=["GET"])
+def mes_souhaits():
+
+    if not data["user"]["connecte"]:
+        return redirect("/")
+
+    requeteGetSouhaits = "SELECT P.nom, P.image, P.id FROM Produit P, Souhaiter S WHERE S.client_id = {0} AND S.produit_id = P.id"
+
+    try:
+        data["souhaits"] = bd.execute_commande_bd(requeteGetSouhaits.format(
+            data["user"]["id"]
+        ), False)
+        print(data["souhaits"])
+    except Exception as e:
+        setMessage(True, "erreur", "Liste de souhait indisponible, Réessayez plus tard.")
+
+    return render_template("mes-souhaits.html", data=data)
 
 @app.route("/se-connecter", methods=["POST"])
 def connexion():
@@ -234,12 +301,12 @@ def deconnexion():
 
 
 @app.route('/mon-compte', methods=['GET'])
-def mes_souhaits():
+def mon_compte():
     # si le user est pas logged in, redirect: /
     if not data["user"]["connecte"]:
         return redirect("/")
 
-    requeteGetTousCommandes = "SELECT P.nom, C.prix as 'prix_total', C.date_commande, C.date_livraison, C.recu, C.quantite, P.image FROM Produit P INNER JOIN Commander C on P.id = C.produit_id WHERE C.client_id = {0};"
+    requeteGetTousCommandes = "SELECT P.nom, C.prix as 'prix_total', C.date_commande, C.date_livraison, C.recu, C.quantite, P.image, L.nom FROM Produit P, Commander C, Livreur L WHERE C.livreur_id = L.id AND P.id = C.produit_id AND C.client_id = {0};"
 
     try:
         commandes = bd.execute_commande_bd(requeteGetTousCommandes.format(data["user"]["id"]), False)
@@ -261,7 +328,7 @@ if __name__ == '__main__':
     insertion.insert_donnees()
 
     # Insertion des produits de la base de données
-    requeteGetTousProduits = "SELECT P.id, P.nom, P.prix, P.poids, P.description, P.image, C.nom as Catégorie from Produit P, Categorie C WHERE P.categorie_id = C.id ORDER BY P.nom"
+    requeteGetTousProduits = "SELECT P.id, P.nom, P.prix, P.poids, P.description, P.image, C.nom, C.description as Catégorie from Produit P, Categorie C WHERE P.categorie_id = C.id ORDER BY P.nom"
     requeteGetTousCategories = "SELECT C.nom FROM Categorie C"
 
     bd.execute_sans_resultat("INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', '123', 'Bessette', 'Jonathan')")
