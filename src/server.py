@@ -1,11 +1,9 @@
-import base64
 import datetime
 import hashlib
 import random
 import time
 
-from cryptography.fernet import Fernet
-from flask import Flask, render_template, jsonify, request, Response, redirect
+from flask import Flask, render_template, request, redirect
 from util import connection as bd
 from util import insertion_tables as insertion
 import re
@@ -13,26 +11,26 @@ import re
 app = Flask(__name__)
 global data
 data = {"message":
-            {
-                "erreur": {
-                    "active": False,
-                    "value": None
-                },
-                "succes": {
-                    "active": False,
-                    "value": None
-                }
-            },
-        "commandesClient": (),
-        "souhaits": (),
-        "panier": [],
-        "user": {
-            "adresse": None,
-            "connecte": False,
-            "nom_famille": "",
-            "prenom": "",
-            "id": None
+    {
+        "erreur": {
+            "active": False,
+            "value": None
+        },
+        "succes": {
+            "active": False,
+            "value": None
         }
+    },
+    "commandesClient": (),
+    "souhaits": (),
+    "panier": [],
+    "user": {
+        "adresse": None,
+        "connecte": False,
+        "nom_famille": "",
+        "prenom": "",
+        "id": None
+    }
 }
 
 
@@ -52,6 +50,7 @@ def resetData():
 def before_request_callback():
     data["message"]["erreur"] = {"active": False, "value": None}
     data["message"]["succes"] = {"active": False, "value": None}
+
 
 @app.route("/commander", methods=["POST"])
 def commander():
@@ -98,9 +97,11 @@ def commander():
 
     return render_template("mon-panier.html", data=data)
 
+
 @app.route('/inscription', methods=['GET'])
 def inscription():
     return render_template("inscription.html", data=data)
+
 
 @app.route('/mon-panier', methods=['GET'])
 def mon_panier():
@@ -147,7 +148,7 @@ def signup():
             prenom
         ))
     except Exception as err:
-        setMessage(True, "erreur", err)
+        setMessage(True, "erreur", "Impossible de créer un compte pour l'instant, réessayez plus tard.")
         return render_template("inscription.html", data=data)
 
     requeteMotDePasse = "INSERT INTO MotDePasse (client_id, mot_de_passe) VALUES ({0}, '{1}');"
@@ -164,7 +165,7 @@ def signup():
         ))
 
     except Exception as err:
-        setMessage(True, "erreur", "Une exception est survenue.")
+        setMessage(True, "erreur", "Une erreur est survenue.")
         return render_template("inscription.html", data=data)
 
     data["user"] = {"adresse": None, "connecte": True, "nom_famille": nom_de_famille, "prenom": prenom, "id": id_user}
@@ -181,6 +182,29 @@ def index():
 @app.route("/se-connecter", methods=["GET"])
 def se_connecter():
     return render_template("se-connecter.html", data=data)
+
+
+@app.route("/modification-adresse", methods=["POST"])
+def modif_adresse():
+    nouvelleAdresse = request.form.get("adresse")
+    requeteModifieAdresse = "UPDATE Client C SET C.adresse = '{0}' WHERE C.id = {1}"
+
+    adresse_pattern = "^(\\d{1,}) [a-zA-Z0-9\\s]+(\\,)? [a-zA-Z]"
+    if not re.match(adresse_pattern, nouvelleAdresse):
+        setMessage(True, "erreur", "L'adresse est sous un format invalide.")
+        return render_template("mon-compte.html", data=data)
+
+    try:
+        bd.execute_sans_resultat(requeteModifieAdresse.format(
+            nouvelleAdresse,
+            data["user"]["id"]
+        ))
+        data["user"]["adresse"] = nouvelleAdresse
+        setMessage(True, "succes", "Adresse modifiée avec succès.")
+    except Exception as e:
+        setMessage(True, "erreur", "Une erreur est survenue, réessayez plus tard.")
+
+    return render_template("mon-compte.html", data=data)
 
 
 @app.route("/ajout-panier", methods=["POST"])
@@ -213,9 +237,9 @@ def ajout_souhait():
     setMessage(True, "succes", "Le produit " + produit + " a été ajouté à votre liste de souhaits.")
     return render_template("index.html", data=data)
 
+
 @app.route("/retire-souhait", methods=["POST"])
 def retire_souhait():
-
     produit = request.form.get("produit")
 
     requeteRetireProduit = "DELETE FROM Souhaiter S WHERE S.client_id = {0} AND S.produit_id = {1}"
@@ -230,9 +254,9 @@ def retire_souhait():
 
     return redirect("/mes-souhaits")
 
+
 @app.route("/mes-souhaits", methods=["GET"])
 def mes_souhaits():
-
     if not data["user"]["connecte"]:
         return redirect("/")
 
@@ -247,6 +271,7 @@ def mes_souhaits():
         setMessage(True, "erreur", "Liste de souhait indisponible, Réessayez plus tard.")
 
     return render_template("mes-souhaits.html", data=data)
+
 
 @app.route("/se-connecter", methods=["POST"])
 def connexion():
@@ -281,7 +306,8 @@ def connexion():
 
         if hash_bd[0] == hashlib.sha256(mot_de_passe.encode("utf-8")).hexdigest().encode():
             setMessage(True, "succes", "Bonjour, " + user[5] + "!")
-            data["user"] = {"adresse": user[3], "connecte": True, "nom_famille": user[4], "prenom": user[5], "id": user[0]}
+            data["user"] = {"adresse": user[3], "connecte": True, "nom_famille": user[4], "prenom": user[5],
+                            "id": user[0]}
             return render_template("se-connecter.html", data=data)
         else:
             setMessage(True, "erreur", "Le mot de passe est invalide.")
@@ -290,7 +316,6 @@ def connexion():
     except Exception as err:
         setMessage(True, "erreur", "Une erreur est survenue.")
         return render_template("se-connecter.html", data=data)
-
 
 
 @app.route('/deconnexion', methods=['POST'])
@@ -331,7 +356,8 @@ if __name__ == '__main__':
     requeteGetTousProduits = "SELECT P.id, P.nom, P.prix, P.poids, P.description, P.image, C.nom, C.description as Catégorie from Produit P, Categorie C WHERE P.categorie_id = C.id ORDER BY P.nom"
     requeteGetTousCategories = "SELECT C.nom FROM Categorie C"
 
-    bd.execute_sans_resultat("INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', '123', 'Bessette', 'Jonathan')")
+    bd.execute_sans_resultat(
+        "INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', '123', 'Bessette', 'Jonathan')")
     mot_passe = hashlib.sha256('123princesse'.encode('utf-8')).hexdigest()
     bd.execute_sans_resultat("INSERT INTO MotDePasse (client_id, mot_de_passe) VALUES (101, '{0}')".format(mot_passe))
 

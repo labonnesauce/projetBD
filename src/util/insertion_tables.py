@@ -65,7 +65,7 @@ def insert_clients(cursor):
             cursor.execute(requete.format(
                 str(randint(1111111111, 9999999999)),
                 COURRIELS[i-1],
-                str(randint(1,10000)) + ' ' + ADRESSES[randint(0, len(ADRESSES) - 1)],
+                str(randint(1, 10000)) + ' ' + ADRESSES[randint(0, len(ADRESSES) - 1)] + ", Quebec",
                 PRENOMS[randint(0, len(PRENOMS) - 1)],
                 NOMS_FAMILLE[randint(0, len(NOMS_FAMILLE) - 1)]
             ))

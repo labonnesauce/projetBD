@@ -119,3 +119,46 @@ main {
     color: black;
     font-family: Wotfard-Medium;
 }
+
+.adresse-change {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid black;
+    margin-top: 20px;
+}
+
+.adresse-change form {
+    display: flex;
+    flex-direction: column;
+}
+
+.adresse-change span {
+    font-family: Wotfard-Medium;
+    font-size: 22px;
+}
+
+.adresse-change form {
+    margin-top: 20px;
+    font-size: 19px;
+    font-family: Wotfard-Regular;
+}
+
+.adresse-change form button {
+    background-color: #228B22;
+    padding: 5px;
+    font-family: Wotfard-Medium !important;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    transition: transform .05s;
+}
+
+.adresse-change form input {
+    padding: 10px;
+}
+
+.adresse-change form button:hover {
+    transform: scale(1.05);
+}

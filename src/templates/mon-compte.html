@@ -22,6 +22,19 @@
                     <img class="user-img" src="../static/public/images/user_compte.png"/>
                 </div>
 
+                <div class="adresse-change">
+                    {% if data.user.adresse %}
+                    <span>Adresse en cours d'utilisation: {{data.user.adresse}}</span>
+                    {% else %}
+                    <span>Aucune adresse en cours d'utilisation.</span>
+                    {% endif %}
+                    <form method="post" action="/modification-adresse">
+                        <label for="adresse">Changer l'adresse de livraison</label>
+                        <input placeholder="3344 rue Alameda, Quebec" id="adresse" name="adresse"/>
+                        <button type="submit">Soumettre la nouvelle adresse</button>
+                    </form>
+                </div>
+
                 <div class="historique">
                     <div class="historique-titre">
                         <span>Historique de mes commandes</span>
