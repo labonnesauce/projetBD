@@ -39,24 +39,24 @@ CREATE TABLE IF NOT EXISTS Produit (
 );
 
 CREATE TABLE IF NOT EXISTS Souhaiter (
-    client_id  INTEGER NOT NULL,
-    produit_id INTEGER NOT NULL,
+    client_id  INTEGER,
+    produit_id INTEGER,
       PRIMARY KEY (client_id, produit_id),
       CONSTRAINT FK_client_id_souhait FOREIGN KEY (client_id) REFERENCES Client (id),
       CONSTRAINT FK_produit_id_souhait FOREIGN KEY (produit_id) REFERENCES Produit (id)
 );
 
 CREATE TABLE IF NOT EXISTS Livreur (
-      id     INT(20) PRIMARY KEY AUTO_INCREMENT,
-      statut ENUM('occupé', 'attente'),
-      nom    VARCHAR(100)
+      id     INTEGER PRIMARY KEY AUTO_INCREMENT,
+      statut ENUM('occupé', 'attente')  NOT NULL,
+      nom    VARCHAR(100)               NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Commander (
       id             INTEGER      PRIMARY KEY AUTO_INCREMENT,
       produit_id     INTEGER      NOT NULL,
       client_id      INTEGER      NOT NULL,
-      livreur_id     INTEGER      NOT NULL,
+      livreur_id     INTEGER,
       prix           FLOAT        NOT NULL,
       date_commande  DATE         NOT NULL,
       date_livraison DATE         NOT NULL,
