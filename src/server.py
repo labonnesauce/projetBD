@@ -356,10 +356,10 @@ if __name__ == '__main__':
     requeteGetTousProduits = "SELECT P.id, P.nom, P.prix, P.poids, P.description, P.image, C.nom, C.description as Catégorie from Produit P, Categorie C WHERE P.categorie_id = C.id ORDER BY P.nom"
     requeteGetTousCategories = "SELECT C.nom FROM Categorie C"
 
-    bd.execute_sans_resultat(
-        "INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', '123', 'Bessette', 'Jonathan')")
-    mot_passe = hashlib.sha256('123princesse'.encode('utf-8')).hexdigest()
-    bd.execute_sans_resultat("INSERT INTO MotDePasse (client_id, mot_de_passe) VALUES (101, '{0}')".format(mot_passe))
+    # bd.execute_sans_resultat(
+    # "INSERT INTO Client (telephone, courriel, adresse, nom_famille, prenom) VALUES ('1111111111', 'jo@u.ca', '123', 'Bessette', 'Jonathan')")
+    # mot_passe = hashlib.sha256('123princesse'.encode('utf-8')).hexdigest()
+    # bd.execute_sans_resultat("INSERT INTO MotDePasse (client_id, mot_de_passe) VALUES (101, '{0}')".format(mot_passe))
 
     try:
         produits = bd.execute_commande_bd(requeteGetTousProduits, False)

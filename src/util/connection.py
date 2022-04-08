@@ -32,7 +32,6 @@ def execute_file(path):
 
     close_connection_and_cursor(connection, cursor)
 
-
 def execute_commande_bd(requete, fetchOne):
     conn, cursor = open_connection()
     cursor.execute(requete)
