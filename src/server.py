@@ -350,6 +350,7 @@ if __name__ == '__main__':
     # Rouler la commande "mysql -u root -p < scripts/creation_bd.sql" avant de lancer ce fichier.
     bd.execute_file("scripts/creation_table.sql")
     bd.execute_file("scripts/creation_index.sql")
+    #bd.execute_file("scripts/creation_routines.sql")# ça fait une erreur quand je run ca pymysql.err.OperationalError: (1227, 'Access denied; you need (at least one of) the SYSTEM_USER privilege(s) for this operation')
     insertion.insert_donnees()
 
     # Insertion des produits de la base de données
