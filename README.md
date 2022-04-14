@@ -3,5 +3,5 @@
 ## Installation
 
 À partir du Command Prompt, à partir du dossier ```src/```, entrer les commandes suivantes pour la création de la base de données. <br />
-> mysql -u root -p < scripts/creation_bd.sql
+> mysql -u root -p < scripts/creation_bd.sql <br />
 > mysql -u root -p < scripts/creation_routines.sql
