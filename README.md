@@ -2,8 +2,16 @@
 
 ## Installation
 
-À partir du Command Prompt, à partir du dossier ```src/```, entrer les commandes suivantes pour la création de la base de données, la création des tables, routines et index. <br />
+Notez que toutes les commandes suivantes s'exécutent à partir du Cmd Prompt, dans le dossier ```src/```.
+
+1. Pour créer la base de données:
 > mysql -u root -p < scripts/creation_bd.sql <br />
-> mysql -u root -p < scripts/creation_table.sql <br />
+
+2. Pour créer les tables, les index et insérer les données:
+> server.py --creation <br />
+
+3. Pour créer les routines:
 > mysql -u root -p < scripts/creation_routines.sql <br />
-> mysql -u root -p < scripts/creation_index.sql <br />
+
+4. Pour démarrer le serveur:
+> server.py <br />
