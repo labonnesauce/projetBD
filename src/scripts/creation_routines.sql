@@ -3,6 +3,7 @@ USE projet_glo2005;
 DROP FUNCTION IF EXISTS CalculPrixTotal;
 DROP FUNCTION IF EXISTS LivreurAvecMoinsCommande;
 DROP TRIGGER IF EXISTS CourrielDejaPresent;
+DROP TRIGGER IF EXISTS HeureLivraisonInvalide;
 DROP FUNCTION IF EXISTS Connexion;
 
 DELIMITER //

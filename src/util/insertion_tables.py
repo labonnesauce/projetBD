@@ -88,8 +88,8 @@ def insert_produits(cursor):
             cursor.execute(requete.format(
                 categorie_id,
                 NOMS[i-1],
-                uniform(5.0, 150.0),
-                randint(3,20),
+                round(uniform(5.0, 150.0), 2),
+                randint(3, 20),
                 LOREM_IPSUM[randint(0, len(LOREM_IPSUM) - 1)],
                 getRandomImage(cursor, categorie_id)
             ))
